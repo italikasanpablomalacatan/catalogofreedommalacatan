@@ -67,7 +67,7 @@ function renderCatalog(filterCategory = 'all', searchTerm = '', sortBy = 'defaul
                 grid.appendChild(header);
                 
                 const catGrid = document.createElement('div');
-                catGrid.className = 'cat-grid'; // <- ESTA ES LA CLAVE QUE ACOMODA LAS MOTOS
+                catGrid.className = 'cat-grid';
                 motosInCat.forEach(m => catGrid.appendChild(createCardHTML(m)));
                 grid.appendChild(catGrid);
             }
@@ -178,9 +178,22 @@ function buildClientMessage(custom) {
         `Precio de lista: ${q(currentSelectedMoto.precio)}`,
         `Tipo de pago: ${paymentLabel()}`
     ];
-    if (paymentType === "credito") lines.push(`Mínimo de enganche: ${q(creditDownPayment)}`);
-    if (paymentType === "visa") { lines.push(`Banco: ${selectedBank}`); lines.push(`Plazo: ${selectedInstallments}`); }
+
+    // LÓGICA DE CRÉDITO PARA EL MENSAJE
+    if (paymentType === "credito") { 
+        let finalDownPayment = Number(document.getElementById("customDownPayment").value);
+        let selectedTerm = document.getElementById("creditTerm").value;
+        lines.push(`Enganche propuesto: ${q(finalDownPayment)}`);
+        lines.push(`Plazo deseado: ${selectedTerm} meses`); 
+    }
+    
+    if (paymentType === "visa") { 
+        lines.push(`Banco: ${selectedBank}`); 
+        lines.push(`Plazo: ${selectedInstallments}`); 
+    }
+    
     if (paymentType === "contado") lines.push(`Deseo información para compra de contado.`);
+    
     lines.push(`Agencia: Malacatán`);
     return lines.join("\n");
 }
@@ -216,13 +229,21 @@ document.getElementById("sendCalcBtn").onclick = () => {
     wa(`Hola, calculé un enganche.\nValor de moto: ${q(val)}\n15% calculado: ${q(exactCalc)}\nEnganche redondeado: ${q(roundedCalc)}\nAgencia: Malacatán`);
 };
 
-// Eventos del Embudo de Pagos
+// Eventos del Embudo de Pagos (CONTROL DE ENGANCHE)
 document.querySelectorAll("[data-pay]").forEach(b => b.onclick = () => {
     paymentType = b.dataset.pay;
     if (paymentType === "contado") { wa(); }
     if (paymentType === "credito") {
         creditDownPayment = roundUp(currentSelectedMoto.precio * 0.15, 100);
-        document.getElementById("creditDownPayment").textContent = q(creditDownPayment);
+        
+        // Mostrar el mínimo en el texto
+        document.getElementById("creditDownPaymentLabel").textContent = q(creditDownPayment);
+        
+        // Configurar el input para que su valor inicial y mínimo sea el enganche base
+        const customInput = document.getElementById("customDownPayment");
+        customInput.min = creditDownPayment;
+        customInput.value = creditDownPayment;
+
         document.getElementById("paymentOptions").classList.add("hidden");
         document.getElementById("creditStep").classList.remove("hidden");
     }
@@ -232,7 +253,27 @@ document.querySelectorAll("[data-pay]").forEach(b => b.onclick = () => {
     }
 });
 
-document.getElementById("creditNext").onclick = () => { wa(); };
+// Validación al hacer click en Continuar Crédito
+document.getElementById("creditNext").onclick = () => { 
+    const customInput = document.getElementById("customDownPayment");
+    let userValue = Number(customInput.value);
+
+    // Sistema de seguridad: si pone uno menor al mínimo, se corrige solo
+    if (userValue < creditDownPayment) {
+        alert(`Lo sentimos, el sistema requiere un enganche mínimo de ${q(creditDownPayment)} para este modelo.`);
+        customInput.value = creditDownPayment; 
+        return; 
+    }
+    
+    wa(); 
+};
+
+// Validación en tiempo real si el cliente se sale de la caja de texto
+document.getElementById("customDownPayment").addEventListener('blur', function() {
+    if (Number(this.value) < creditDownPayment) {
+        this.value = creditDownPayment;
+    }
+});
 
 const banks = ["BI", "Proamérica", "G&T", "BAM", "Bantrab", "Occidente", "Banrural", "Ficohsa", "Micoope", "Otros"];
 document.getElementById("bankGrid").innerHTML = banks.map(b => `<button class="bankBtn" data-bank="${b}">${b}</button>`).join("");
