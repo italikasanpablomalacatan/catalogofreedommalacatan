@@ -67,7 +67,7 @@ function renderCatalog(filterCategory = 'all', searchTerm = '', sortBy = 'defaul
                 grid.appendChild(header);
                 
                 const catGrid = document.createElement('div');
-                catGrid.className = 'cat-grid';
+                catGrid.className = 'cat-grid'; // <- ESTA ES LA CLAVE QUE ACOMODA LAS MOTOS
                 motosInCat.forEach(m => catGrid.appendChild(createCardHTML(m)));
                 grid.appendChild(catGrid);
             }
