@@ -1,41 +1,41 @@
-// data.js - Catálogo Completo Freedom Mayo 2026
+// data.js - Catálogo Completo Freedom Actualizado (Promoción 2026 y Modelos 2027)
 const motos = [
   // --- MODELOS DE TRABAJO ---
   {
     "nombre": "fire1257",
     "modelo": "FIRE 125-7",
     "categoria": "Trabajo",
-    "precio": 9990
+    "precio": 9490
   },
   {
     "nombre": "fire125tt",
     "modelo": "FIRE 125 TT",
     "categoria": "Trabajo",
-    "precio": 10690
+    "precio": 10090
   },
   {
     "nombre": "fire150",
     "modelo": "FIRE 150",
     "categoria": "Trabajo",
-    "precio": 10740
+    "precio": 11240
   },
   {
     "nombre": "fire150tt",
     "modelo": "FIRE 150 TT",
     "categoria": "Trabajo",
-    "precio": 11240
+    "precio": 11740
   },
   {
     "nombre": "fire210",
     "modelo": "FIRE 210",
     "categoria": "Trabajo",
-    "precio": 12640
+    "precio": 13140
   },
   {
     "nombre": "fire210tt",
     "modelo": "FIRE 210 TT",
     "categoria": "Trabajo",
-    "precio": 13140
+    "precio": 13740
   },
   {
     "nombre": "tunningx125",
@@ -49,31 +49,31 @@ const motos = [
     "nombre": "cr1150",
     "modelo": "CR1 150",
     "categoria": "Sport",
-    "precio": 11490
+    "precio": 10990
   },
   {
     "nombre": "switch150",
     "modelo": "SWITCH 150",
     "categoria": "Sport",
-    "precio": 13290
+    "precio": 12490
   },
   {
     "nombre": "holkan160",
     "modelo": "HOLKAN 160",
     "categoria": "Sport",
-    "precio": 14290
+    "precio": 13490
   },
   {
     "nombre": "cr4210",
     "modelo": "CRII 210",
     "categoria": "Sport",
-    "precio": 13290
+    "precio": 12490
   },
   {
     "nombre": "cr4",
     "modelo": "CR4 (Nuevo Diseño)",
     "categoria": "Sport",
-    "precio": 16990
+    "precio": 15990
   },
   {
     "nombre": "cr4n250",
@@ -85,7 +85,7 @@ const motos = [
     "nombre": "cr52504v",
     "modelo": "CR5-250 4V",
     "categoria": "Sport",
-    "precio": 19290
+    "precio": 18990
   },
   {
     "nombre": "spitzer250",
@@ -105,13 +105,13 @@ const motos = [
     "nombre": "klik110",
     "modelo": "KLIK 110",
     "categoria": "Crossover",
-    "precio": 9990
+    "precio": 9490
   },
   {
     "nombre": "klik150",
     "modelo": "KLIK 150 (Nuevo Modelo)",
     "categoria": "Crossover",
-    "precio": 10490
+    "precio": 9990
   },
 
   // --- MOTONETAS ---
@@ -119,25 +119,25 @@ const motos = [
     "nombre": "space125",
     "modelo": "SPACE 125",
     "categoria": "Motonetas",
-    "precio": 9990
+    "precio": 9490
   },
   {
     "nombre": "sweet125",
     "modelo": "SWEET 125",
     "categoria": "Motonetas",
-    "precio": 9490
+    "precio": 8490
   },
   {
     "nombre": "f15125",
     "modelo": "F15-125",
     "categoria": "Motonetas",
-    "precio": 5490
+    "precio": 8490
   },
   {
     "nombre": "superlifer150",
     "modelo": "SUPER LIFE R 150",
     "categoria": "Motonetas",
-    "precio": 10990
+    "precio": 8990
   },
   {
     "nombre": "agilitykymco",
@@ -163,17 +163,17 @@ const motos = [
     "nombre": "fxr150l",
     "modelo": "FXR150L",
     "categoria": "Doble Propósito",
-    "precio": 11240
+    "precio": 10490
+  },
+  {
+    "nombre": "fxr200l_negro",
+    "modelo": "FXR200L 2027 (Color Negro)",
+    "categoria": "Doble Propósito",
+    "precio": 13640
   },
   {
     "nombre": "fxr200l",
-    "modelo": "FXR200L",
-    "categoria": "Doble Propósito",
-    "precio": 12990
-  },
-  {
-    "nombre": "fxr200lnuevo",
-    "modelo": "FXR200L (Nuevo Diseño)",
+    "modelo": "FXR200L 2027 (Gris, Blanco, Arena, Rojo)",
     "categoria": "Doble Propósito",
     "precio": 13140
   },
@@ -195,7 +195,7 @@ const motos = [
     "nombre": "trip110",
     "modelo": "TRIP 110",
     "categoria": "Semi Automáticas",
-    "precio": 7990
+    "precio": 7499
   },
   {
     "nombre": "trip125r",
@@ -209,10 +209,10 @@ const motos = [
     "nombre": "bufalo250",
     "modelo": "BÚFALO 250",
     "categoria": "Moto Cargo",
-    "precio": 25240
+    "precio": 24490
   },
 
-  // --- 4 RUEDAS (ATV / UTVS) ---
+  // --- 4 RUEDAS ---
   {
     "nombre": "mongoose90s",
     "modelo": "MONGOOSE 90S",
