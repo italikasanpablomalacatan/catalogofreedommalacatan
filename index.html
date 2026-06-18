@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Interactivo Freedom</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="logo-container">
+            <img src="assets/img/logo-freedom.png" class="logo" id="dynamic-logo" alt="Logo Freedom">
+        </div>
+        <h1 id="hero-title">CATÁLOGO FREEDOM</h1>
+    </header>
+
+    <section class="search-filter-container">
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Buscar por nombre, modelo o categoría...">
+        </div>
+        
+        <div class="categories-tabs" id="categories-tabs">
+            <button class="tab-btn active" data-category="all">Todas</button>
+            <button class="tab-btn" data-category="Trabajo">Trabajo</button>
+            <button class="tab-btn" data-category="Sport">Sport</button>
+            <button class="tab-btn" data-category="Crossover">Crossover</button>
+            <button class="tab-btn" data-category="Motonetas">Motonetas</button>
+            <button class="tab-btn" data-category="Doble Propósito">Doble Propósito</button>
+            <button class="tab-btn" data-category="Semi Automáticas">Semi Automáticas</button>
+            <button class="tab-btn" data-category="Moto Cargo">Cargo</button>
+            <button class="tab-btn" data-category="4 Ruedas">4 Ruedas</button>
+        </div>
+
+        <div class="sort-container">
+            <label for="sort-select">Ordenar por: </label>
+            <select id="sort-select">
+                <option value="default">Recomendados</option>
+                <option value="low">Menor Precio</option>
+                <option value="high">Mayor Precio</option>
+                <option value="az">A - Z</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Contenedor modificado para separar categorías -->
+    <main class="catalog-wrapper" id="grid"></main>
+
+    <!-- Dock iOS Estilo Premium -->
+    <div class="iosDock">
+        <button id="calcBtn" class="dockBtn calc"><span>🧮</span><b>Enganche</b></button>
+        <button id="contactBtn" class="dockBtn phone"><span>☎</span><b>Contactar</b></button>
+    </div>
+
+    <!-- Modal Principal de Venta Interactivo -->
+    <dialog id="paymentDialog" class="dialog premium-dark-dialog">
+        <button class="close-modal" data-close-payment>&times;</button>
+        <div class="modal-body">
+            <div class="modal-img-container">
+                <img id="modal-img" src="" alt="Moto Detalle">
+            </div>
+            <div class="modal-info">
+                <span class="modal-tag" id="modal-category">Categoría</span>
+                <h2 id="modal-title">Modelo de Moto</h2>
+                
+                <div class="modal-prices">
+                    <span class="old" id="modal-old-price">Q0</span>
+                    <span class="price" id="modal-price">Q0</span>
+                </div>
+
+                <!-- Pasos del Embudo directo a Malacatán -->
+                <div id="paymentOptions" class="payOptions">
+                    <h3 style="color:#ffd700; margin-bottom:10px;">¿Cómo te interesa?</h3>
+                    <button class="payOption dark-btn" data-pay="contado"><b>Contado</b><span>Compra inmediata en agencia.</span></button>
+                    <button class="payOption dark-btn" data-pay="credito"><b>Crédito</b><span>Ver enganche mínimo.</span></button>
+                    <button class="payOption dark-btn" data-pay="visa"><b>Visa cuotas</b><span>Elegir banco y plazo.</span></button>
+                </div>
+
+                <div id="creditStep" class="payStep hidden">
+                    <h3 style="color:#ffd700;">Crédito</h3>
+                    <div class="calculator-box">
+                        <div class="calc-row">
+                            <span>Mínimo de enganche redondeado:</span>
+                            <strong id="creditDownPayment">Q0.00</strong>
+                        </div>
+                        <small class="info-alert" style="margin-top:10px;">💡 Si el enganche es mayor, el interés es menor.</small>
+                    </div>
+                    <button class="btn action-btn-wa" id="creditNext">Enviar a WhatsApp</button>
+                </div>
+
+                <div id="visaBankStep" class="payStep hidden">
+                    <h3 style="color:#ffd700; margin-bottom:15px;">¿De qué banco es tu tarjeta?</h3>
+                    <div id="bankGrid" class="bankGrid"></div>
+                </div>
+
+                <div id="visaInstallmentStep" class="payStep hidden">
+                    <h3 style="color:#ffd700;">¿Cuántas cuotas deseas?</h3>
+                    <p class="recargo-notice" style="margin-bottom:15px;">Algunos bancos cobran un recargo del 2.38% al 6.25%.</p>
+                    <div id="installmentGrid" class="bankGrid"></div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Calculadora Flotante Directa -->
+    <dialog id="calcDialog" class="dialog small premium-dark-dialog">
+        <button class="close-modal" data-close-calc>&times;</button>
+        <h2 style="color:white; margin-bottom:10px;">Calculadora Universal</h2>
+        <p style="color:#aaa; font-size:0.9rem; margin-bottom:15px;">Ingresa el valor de la moto. Se calcula el 15% exacto y se redondea hacia arriba.</p>
+        <input id="calcValue" class="calcInput" type="number" placeholder="Ejemplo: 9990">
+        <div class="calculator-box" style="margin-top:20px;">
+            <div class="calc-row" style="margin-bottom:8px;"><small>15% calculado exacto</small><b id="calcExact">Q0.00</b></div>
+            <div class="calc-row"><small>Enganche recomendado</small><strong id="calcResult" style="color:#ffd700; font-size:1.5rem;">Q0.00</strong></div>
+        </div>
+        <button class="btn action-btn-wa" id="sendCalcBtn" style="margin-top:20px;">Enviar a WhatsApp</button>
+    </dialog>
+
+    <!-- Pantalla de Carga Premium -->
+    <dialog id="loadingDialog" class="dialog loadingDialog premium-dark-dialog">
+        <div class="loadingBox" style="text-align: center; padding: 30px;">
+            <div class="loaderPhone" style="background: linear-gradient(135deg,#ffd700,#b39700); color:black; font-size:2.5rem; width:80px; height:80px; border-radius:25px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:20px; animation:pulsePhone 1.1s infinite;">☎</div>
+            <h2 style="color:white; margin-bottom:20px;">Abriendo chat de WhatsApp para darte la mejor atención</h2>
+            <div class="jumpDots" style="display:flex; justify-content:center; gap:8px;">
+                <span style="background:#ffd700; width:12px; height:12px; border-radius:50%; animation:jumpDot .75s infinite;"></span>
+                <span style="background:#ffd700; width:12px; height:12px; border-radius:50%; animation:jumpDot .75s infinite; animation-delay:.12s;"></span>
+                <span style="background:#ffd700; width:12px; height:12px; border-radius:50%; animation:jumpDot .75s infinite; animation-delay:.24s;"></span>
+            </div>
+        </div>
+    </dialog>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
