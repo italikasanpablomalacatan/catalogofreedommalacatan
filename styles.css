@@ -1,4 +1,4 @@
-/* --- CONFIGURACIÓN GENERAL Y ESTILO DE MARCA (NEGRO, ORO, CRISTAL) --- */
+/* --- CONFIGURACIÓN GENERAL Y ESTILO DE MARCA --- */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -9,17 +9,6 @@ body {
     scroll-behavior: smooth;
 }
 
-/* 2. DISEÑO GLASSMORPHISM BASE */
-.glass-panel {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 215, 0, 0.12);
-    border-radius: 24px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-}
-
-/* 1. DISEÑO RESPONSIVE HERO */
 .hero {
     padding: 50px 20px 20px 20px;
     text-align: center;
@@ -38,7 +27,7 @@ body {
     width: 320px;
     max-width: 90%;
     object-fit: contain;
-    transition: transform 0.4s ease, opacity 0.4s ease; /* 29. ANIMACIONES SUAVES */
+    transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
 .hero h1 {
@@ -49,19 +38,7 @@ body {
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
 }
 
-.promo-date {
-    color: #ffd700;
-    font-weight: bold;
-    font-size: 1rem;
-    opacity: 0.9;
-    background: rgba(255, 215, 0, 0.1);
-    display: inline-block;
-    padding: 6px 16px;
-    border-radius: 50px;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-}
-
-/* SECCIÓN CONTROLES (7. BUSCADOR, 6. FILTROS Y 34. ORDENAMIENTOS) */
+/* --- BUSCADOR Y FILTROS --- */
 .search-filter-container {
     max-width: 1200px;
     margin: 0 auto 30px auto;
@@ -102,12 +79,10 @@ body {
     overflow-x: auto;
     width: 100%;
     padding: 10px 5px;
-    scrollbar-width: none; /* Ocultar barra en Firefox */
+    scrollbar-width: none;
 }
 
-.categories-tabs::-webkit-scrollbar {
-    display: none; /* Ocultar barra en Chrome/Safari */
-}
+.categories-tabs::-webkit-scrollbar { display: none; }
 
 .tab-btn {
     background: rgba(255, 255, 255, 0.05);
@@ -146,17 +121,40 @@ body {
     cursor: pointer;
 }
 
-/* 1. GRID AUTORRESPONSIVE */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    padding: 20px;
+/* --- SEPARACIÓN DE CATEGORÍAS Y CUADRÍCULA (GRID) --- */
+.catalog-wrapper {
+    padding: 0 20px 60px 20px;
     max-width: 1200px;
-    margin: 0 auto 60px auto;
+    margin: 0 auto;
+    display: block; 
 }
 
-/* 8. ESTRUCTURA DE LAS TARJETAS */
+.category-header {
+    width: 100%;
+    color: #ffd700;
+    border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+    padding-bottom: 10px;
+    margin-top: 50px;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.category-header:first-child {
+    margin-top: 10px; 
+}
+
+/* ESTO ARREGLA EL TERROR DE LAS TARJETAS ESTIRADAS */
+.cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    width: 100%;
+}
+
+/* --- TARJETAS DE MOTO --- */
 .card {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 215, 0, 0.12);
@@ -172,7 +170,6 @@ body {
     overflow: hidden;
 }
 
-/* 29. EFECTO HOVER AVANZADO CON GLOW Y ZOOM */
 .card:hover {
     transform: translateY(-6px);
     border-color: rgba(255, 215, 0, 0.4);
@@ -226,7 +223,6 @@ body {
     gap: 2px;
 }
 
-/* 9. DESCUENTOS TACHADOS */
 .old {
     text-decoration: line-through;
     opacity: 0.5;
@@ -263,49 +259,29 @@ body {
     transform: scale(1.01);
 }
 
-/* 11. VENTANA MODAL PREMIUM DETALLADA */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+/* --- DIÁLOGOS NATIVOS (MODALES) Y DOCK --- */
+.dialog {
+    width: min(850px, calc(100% - 22px));
+    border: none;
+    border-radius: 28px;
+    padding: 0;
+    color: white;
+}
+
+.dialog::backdrop {
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    padding: 15px;
-    box-sizing: border-box;
 }
 
-.modal.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.modal-content {
+.premium-dark-dialog {
     background: linear-gradient(145deg, #111111, #070707);
     border: 1px solid rgba(255, 215, 0, 0.25);
-    width: 100%;
-    max-width: 850px;
-    max-height: 90vh;
-    border-radius: 28px;
-    position: relative;
-    overflow-y: auto;
     box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    animation: modalScale 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 25px;
 }
 
-@keyframes modalScale {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
+.dialog.small { width: min(500px, calc(100% - 22px)); }
+.hidden { display: none !important; }
 
 .close-modal {
     position: absolute;
@@ -313,20 +289,20 @@ body {
     right: 25px;
     font-size: 2rem;
     color: #888;
+    background: none;
+    border: none;
     cursor: pointer;
     transition: color 0.2s;
     z-index: 10;
 }
 
-.close-modal:hover {
-    color: #ffd700;
-}
+.close-modal:hover { color: #ffd700; }
 
 .modal-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
-    padding: 35px;
+    padding: 20px 10px;
 }
 
 .modal-img-container img {
@@ -351,11 +327,6 @@ body {
     margin-bottom: 10px;
 }
 
-.modal-info h2 {
-    margin: 0 0 10px 0;
-    font-size: 2rem;
-}
-
 .modal-prices {
     display: flex;
     align-items: baseline;
@@ -363,221 +334,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* 23. CAJA INTERNA DE CALCULADORA */
-.calculator-box {
-    background: rgba(255, 215, 0, 0.05);
-    border: 1px solid rgba(255, 215, 0, 0.15);
-    border-radius: 16px;
-    padding: 12px 16px;
-    margin-bottom: 20px;
-}
-
-.calculator-box h3 {
-    margin: 0 0 8px 0;
-    font-size: 0.95rem;
-    color: #ffd700;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.calc-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.95rem;
-}
-
-.text-highlight {
-    background: rgba(255,255,255,0.04);
-    padding: 10px;
-    border-radius: 8px;
-    border-left: 3px solid #ffd700;
-    margin-top: 10px;
-}
-
-/* 12. MENÚ EN PESTAÑAS DE PAGO */
-.payment-tabs {
-    display: flex;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 4px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-}
-
-.pay-tab {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: #aaa;
-    padding: 10px 5px;
-    font-weight: bold;
-    font-size: 0.85rem;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.2s;
-}
-
-.pay-tab.active {
-    background: rgba(255, 215, 0, 0.15);
-    color: #ffd700;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.agency-selector {
-    margin-bottom: 15px;
-}
-
-.agency-selector label, .selector-row label {
-    display: block;
-    font-size: 0.85rem;
-    color: #bbb;
-    margin-bottom: 6px;
-}
-
-.agency-selector select, .selector-row select {
-    width: 100%;
-    background: #151515;
-    border: 1px solid rgba(255,255,255,0.15);
-    padding: 10px;
-    color: white;
-    border-radius: 10px;
-    outline: none;
-}
-
-.selector-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.payment-method-content {
-    display: none;
-}
-
-.payment-method-content.active {
-    display: block;
-    animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.payment-method-content p {
-    font-size: 0.85rem;
-    color: #ccc;
-    line-height: 1.4;
-    margin: 0 0 15px 0;
-}
-
-/* 14. INPUT DESLIZABLE DE ENGANCHE */
-.range-container input[type=range] {
-    width: 100%;
-    margin: 10px 0;
-    accent-color: #ffd700;
-}
-
-.info-alert {
-    display: block;
-    color: #4da6ff;
-    font-size: 0.8rem;
-    margin-top: 4px;
-}
-
-.recargo-notice {
-    font-size: 0.75rem !important;
-    color: #ff6b6b !important;
-    margin-top: 8px !important;
-}
-
-.action-btn-wa {
-    width: 100%;
-    background: #25d366;
-    color: white;
-    margin-top: 5px;
-}
-
-.action-btn-wa:hover {
-    background: #20ba56;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-}
-
-/* 22. BOTÓN FLOTANTE FLUIDO DE WHATSAPP */
-.whatsapp-floating {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    width: 60px;
-    height: 60px;
-    background: #25d366;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-    z-index: 999;
-    transition: transform 0.3s;
-}
-
-.whatsapp-floating:hover {
-    transform: scale(1.1) rotate(8deg);
-}
-
-.whatsapp-icon {
-    width: 34px;
-    height: 34px;
-}
-
-/* --- ADAPTACIÓN RESPONSIVA PARA DISPOSITIVOS MÓVILES --- */
-@media (max-width: 768px) {
-    .modal-body {
-        grid-template-columns: 1fr;
-        padding: 20px;
-        gap: 15px;
-    }
-    .modal-content {
-        max-height: 95vh;
-    }
-    .modal-img-container img {
-        min-height: 180px;
-        max-height: 220px;
-    }
-    .modal-info h2 {
-        font-size: 1.5rem;
-    }
-    .hero h1 {
-        font-size: 1.7rem;
-    }
-    .logo {
-        width: 260px;
-    }
-}
-/* --- INTEGRACIÓN FUNCIONES AVANZADAS AL TEMA OSCURO --- */
-
-/* Diálogos Nativos (Modales)[cite: 3] */
-.dialog {
-    width: min(850px, calc(100% - 22px));
-    border: none;
-    border-radius: 28px;
-    padding: 0;
-    color: white;
-}
-.dialog::backdrop {
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
-}
-.premium-dark-dialog {
-    background: linear-gradient(145deg, #111111, #070707);
-    border: 1px solid rgba(255, 215, 0, 0.25);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    padding: 25px;
-}
-.dialog.small { width: min(500px, calc(100% - 22px)); }
-.hidden { display: none !important; }
-
-/* Menú iOS[cite: 3] */
 .iosDock {
     position: fixed;
     left: 50%;
@@ -593,6 +349,7 @@ body {
     box-shadow: 0 20px 50px rgba(0,0,0,0.8);
     backdrop-filter: blur(15px);
 }
+
 .dockBtn {
     border: 0;
     min-width: 118px;
@@ -606,10 +363,10 @@ body {
     color: white;
     cursor: pointer;
 }
+
 .dockBtn.calc { background: linear-gradient(135deg, #333, #111); }
 .dockBtn.phone { background: linear-gradient(135deg, #25d366, #1da851); }
 
-/* Botones de Pasos de Venta[cite: 3] */
 .dark-btn, .bankBtn {
     width: 100%;
     background: rgba(255, 255, 255, 0.05);
@@ -622,17 +379,32 @@ body {
     cursor: pointer;
     transition: all 0.3s;
 }
+
 .dark-btn:hover, .bankBtn:hover {
     background: rgba(255, 215, 0, 0.15);
     border-color: #ffd700;
     transform: translateY(-2px);
 }
+
 .payOption { display: flex; flex-direction: column; gap: 5px; }
 .payOption span { color: #aaa; font-size: 0.85rem; font-weight: normal; }
 .bankGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .bankBtn { text-align: center; font-weight: bold; margin-bottom: 0; }
 
-/* Input Calculadora[cite: 3] */
+.calculator-box {
+    background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 16px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+}
+
+.calc-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+}
+
 .calcInput {
     width: 100%;
     height: 60px;
@@ -646,40 +418,27 @@ body {
     outline: none;
     box-sizing: border-box;
 }
+
 .calcInput:focus { border-color: #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
 
-/* Animaciones de Carga[cite: 3] */
+.action-btn-wa {
+    width: 100%;
+    background: #25d366;
+    color: white;
+    margin-top: 5px;
+}
+
+.action-btn-wa:hover {
+    background: #20ba56;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
 @keyframes pulsePhone { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 @keyframes jumpDot { 0%, 100% { transform: translateY(0); opacity: 0.4; } 50% { transform: translateY(-12px); opacity: 1; } }
 
-/* --- SEPARACIÓN DE CATEGORÍAS --- */
-.catalog-wrapper {
-    padding: 0 20px 60px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: block; /* Cambiado para permitir secciones */
-}
-
-.category-header {
-    width: 100%;
-    color: #ffd700;
-    border-bottom: 2px solid rgba(255, 215, 0, 0.2);
-    padding-bottom: 10px;
-    margin-top: 50px;
-    margin-bottom: 25px;
-    font-size: 1.8rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.category-header:first-child {
-    margin-top: 10px; /* Menos espacio para la primera categoría */
-}
-
-.cat-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    width: 100%;
+@media (max-width: 768px) {
+    .modal-body {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 }
