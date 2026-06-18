@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo Interactivo Freedom</title>
-    <link rel="stylesheet" href="styles.css">
+    <!-- El ?v=2 ayuda a que los clientes siempre vean la versión más reciente -->
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
     <header class="hero">
@@ -42,7 +43,7 @@
         </div>
     </section>
 
-    <!-- Contenedor modificado para separar categorías -->
+    <!-- Contenedor de Cuadrícula Separada por Categorías -->
     <main class="catalog-wrapper" id="grid"></main>
 
     <!-- Dock iOS Estilo Premium -->
@@ -75,14 +76,33 @@
                     <button class="payOption dark-btn" data-pay="visa"><b>Visa cuotas</b><span>Elegir banco y plazo.</span></button>
                 </div>
 
+                <!-- NUEVO PASO DE CRÉDITO CON SELECTOR DE TIEMPO Y ENGANCHE -->
                 <div id="creditStep" class="payStep hidden">
                     <h3 style="color:#ffd700;">Crédito</h3>
                     <div class="calculator-box">
-                        <div class="calc-row">
-                            <span>Mínimo de enganche redondeado:</span>
-                            <strong id="creditDownPayment">Q0.00</strong>
+                        <div class="calc-row" style="margin-bottom: 15px;">
+                            <span>Enganche mínimo permitido:</span>
+                            <strong id="creditDownPaymentLabel" style="color:white;">Q0.00</strong>
                         </div>
-                        <small class="info-alert" style="margin-top:10px;">💡 Si el enganche es mayor, el interés es menor.</small>
+                        
+                        <!-- Campo para modificar el enganche -->
+                        <div style="margin-bottom: 15px;">
+                            <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:5px;">¿Deseas dar un enganche mayor?</label>
+                            <input type="number" id="customDownPayment" class="calcInput" style="height: 45px; font-size: 1.1rem; width: 100%;" placeholder="Ingresa tu enganche">
+                        </div>
+
+                        <!-- Selector de tiempo -->
+                        <div>
+                            <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:5px;">¿Para cuánto tiempo deseas el crédito?</label>
+                            <select id="creditTerm" class="calcInput" style="height: 45px; font-size: 1rem; width: 100%; cursor: pointer;">
+                                <option value="6">6 Meses</option>
+                                <option value="12" selected>12 Meses</option>
+                                <option value="18">18 Meses</option>
+                                <option value="24">24 Meses</option>
+                            </select>
+                        </div>
+
+                        <small class="info-alert" style="margin-top:12px; display:block; color:#4da6ff;">💡 Entre mayor sea tu enganche, tu cuota será más baja.</small>
                     </div>
                     <button class="btn action-btn-wa" id="creditNext">Enviar a WhatsApp</button>
                 </div>
@@ -94,7 +114,7 @@
 
                 <div id="visaInstallmentStep" class="payStep hidden">
                     <h3 style="color:#ffd700;">¿Cuántas cuotas deseas?</h3>
-                    <p class="recargo-notice" style="margin-bottom:15px;">Algunos bancos cobran un recargo del 2.38% al 6.25%.</p>
+                    <p class="recargo-notice" style="margin-bottom:15px; color:#ff6b6b; font-size:0.85rem;">Algunos bancos cobran un recargo del 2.38% al 6.25%.</p>
                     <div id="installmentGrid" class="bankGrid"></div>
                 </div>
             </div>
