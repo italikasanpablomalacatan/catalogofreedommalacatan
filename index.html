@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo Interactivo Freedom</title>
-    <!-- El ?v=2 ayuda a que los clientes siempre vean la versión más reciente -->
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
     <header class="hero">
@@ -76,7 +75,7 @@
                     <button class="payOption dark-btn" data-pay="visa"><b>Visa cuotas</b><span>Elegir banco y plazo.</span></button>
                 </div>
 
-                <!-- NUEVO PASO DE CRÉDITO CON SELECTOR DE TIEMPO Y ENGANCHE -->
+                <!-- PASO DE CRÉDITO ARREGLADO CON ENGANCHE MODIFICABLE Y MESES -->
                 <div id="creditStep" class="payStep hidden">
                     <h3 style="color:#ffd700;">Crédito</h3>
                     <div class="calculator-box">
@@ -85,13 +84,11 @@
                             <strong id="creditDownPaymentLabel" style="color:white;">Q0.00</strong>
                         </div>
                         
-                        <!-- Campo para modificar el enganche -->
                         <div style="margin-bottom: 15px;">
                             <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:5px;">¿Deseas dar un enganche mayor?</label>
                             <input type="number" id="customDownPayment" class="calcInput" style="height: 45px; font-size: 1.1rem; width: 100%;" placeholder="Ingresa tu enganche">
                         </div>
 
-                        <!-- Selector de tiempo -->
                         <div>
                             <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:5px;">¿Para cuánto tiempo deseas el crédito?</label>
                             <select id="creditTerm" class="calcInput" style="height: 45px; font-size: 1rem; width: 100%; cursor: pointer;">
@@ -101,7 +98,6 @@
                                 <option value="24">24 Meses</option>
                             </select>
                         </div>
-
                         <small class="info-alert" style="margin-top:12px; display:block; color:#4da6ff;">💡 Entre mayor sea tu enganche, tu cuota será más baja.</small>
                     </div>
                     <button class="btn action-btn-wa" id="creditNext">Enviar a WhatsApp</button>
