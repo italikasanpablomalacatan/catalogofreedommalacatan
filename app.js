@@ -33,7 +33,7 @@ setInterval(() => {
     }, 400);
 }, 5000);
 
-// --- RENDERIZADO DEL CATÁLOGO (CON SEPARACIÓN DE CATEGORÍAS) ---
+// --- RENDERIZADO DEL CATÁLOGO ---
 function renderCatalog(filterCategory = 'all', searchTerm = '', sortBy = 'default') {
     grid.innerHTML = '';
     let filteredMotos = [...motos];
@@ -55,7 +55,6 @@ function renderCatalog(filterCategory = 'all', searchTerm = '', sortBy = 'defaul
     else if (sortBy === 'high') filteredMotos.sort((a, b) => b.precio - a.precio);
     else if (sortBy === 'az') filteredMotos.sort((a, b) => a.modelo.localeCompare(b.modelo));
 
-    // Si no hay filtros activos, agrupar visualmente por categoría
     if (filterCategory === 'all' && searchTerm.trim() === '' && sortBy === 'default') {
         const uniqueCategories = [...new Set(filteredMotos.map(m => m.categoria))];
         uniqueCategories.forEach(cat => {
@@ -73,7 +72,6 @@ function renderCatalog(filterCategory = 'all', searchTerm = '', sortBy = 'defaul
             }
         });
     } else {
-        // Renderizado normal cuando hay búsquedas o filtros
         const catGrid = document.createElement('div');
         catGrid.className = 'cat-grid';
         filteredMotos.forEach(m => catGrid.appendChild(createCardHTML(m)));
@@ -134,7 +132,7 @@ sortSelect.addEventListener('change', () => {
     renderCatalog(activeTab, searchInput.value, sortSelect.value);
 });
 
-// --- LÓGICA DE MODALES Y EMBUDO DIRECTO A WHATSAPP ---
+// --- LÓGICA DE MODALES ---
 const paymentDialog = document.getElementById("paymentDialog");
 const calcDialog = document.getElementById("calcDialog");
 const loadingDialog = document.getElementById("loadingDialog");
@@ -179,10 +177,12 @@ function buildClientMessage(custom) {
         `Tipo de pago: ${paymentLabel()}`
     ];
 
-    // LÓGICA DE CRÉDITO PARA EL MENSAJE
     if (paymentType === "credito") { 
-        let finalDownPayment = Number(document.getElementById("customDownPayment").value);
-        let selectedTerm = document.getElementById("creditTerm").value;
+        let customInput = document.getElementById("customDownPayment");
+        let finalDownPayment = customInput ? Number(customInput.value) : creditDownPayment;
+        let creditTermSelect = document.getElementById("creditTerm");
+        let selectedTerm = creditTermSelect ? creditTermSelect.value : "12";
+        
         lines.push(`Enganche propuesto: ${q(finalDownPayment)}`);
         lines.push(`Plazo deseado: ${selectedTerm} meses`); 
     }
@@ -229,20 +229,21 @@ document.getElementById("sendCalcBtn").onclick = () => {
     wa(`Hola, calculé un enganche.\nValor de moto: ${q(val)}\n15% calculado: ${q(exactCalc)}\nEnganche redondeado: ${q(roundedCalc)}\nAgencia: Malacatán`);
 };
 
-// Eventos del Embudo de Pagos (CONTROL DE ENGANCHE)
+// Eventos del Embudo de Pagos
 document.querySelectorAll("[data-pay]").forEach(b => b.onclick = () => {
     paymentType = b.dataset.pay;
     if (paymentType === "contado") { wa(); }
     if (paymentType === "credito") {
         creditDownPayment = roundUp(currentSelectedMoto.precio * 0.15, 100);
         
-        // Mostrar el mínimo en el texto
-        document.getElementById("creditDownPaymentLabel").textContent = q(creditDownPayment);
+        let label = document.getElementById("creditDownPaymentLabel");
+        if(label) label.textContent = q(creditDownPayment);
         
-        // Configurar el input para que su valor inicial y mínimo sea el enganche base
         const customInput = document.getElementById("customDownPayment");
-        customInput.min = creditDownPayment;
-        customInput.value = creditDownPayment;
+        if(customInput) {
+            customInput.min = creditDownPayment;
+            customInput.value = creditDownPayment;
+        }
 
         document.getElementById("paymentOptions").classList.add("hidden");
         document.getElementById("creditStep").classList.remove("hidden");
@@ -254,26 +255,31 @@ document.querySelectorAll("[data-pay]").forEach(b => b.onclick = () => {
 });
 
 // Validación al hacer click en Continuar Crédito
-document.getElementById("creditNext").onclick = () => { 
-    const customInput = document.getElementById("customDownPayment");
-    let userValue = Number(customInput.value);
+let btnCreditNext = document.getElementById("creditNext");
+if(btnCreditNext) {
+    btnCreditNext.onclick = () => { 
+        const customInput = document.getElementById("customDownPayment");
+        if(customInput) {
+            let userValue = Number(customInput.value);
+            if (userValue < creditDownPayment) {
+                alert(`Lo sentimos, el sistema requiere un enganche mínimo de ${q(creditDownPayment)} para este modelo.`);
+                customInput.value = creditDownPayment; 
+                return; 
+            }
+        }
+        wa(); 
+    };
+}
 
-    // Sistema de seguridad: si pone uno menor al mínimo, se corrige solo
-    if (userValue < creditDownPayment) {
-        alert(`Lo sentimos, el sistema requiere un enganche mínimo de ${q(creditDownPayment)} para este modelo.`);
-        customInput.value = creditDownPayment; 
-        return; 
-    }
-    
-    wa(); 
-};
-
-// Validación en tiempo real si el cliente se sale de la caja de texto
-document.getElementById("customDownPayment").addEventListener('blur', function() {
-    if (Number(this.value) < creditDownPayment) {
-        this.value = creditDownPayment;
-    }
-});
+// Validación en tiempo real de enganche
+let customInputRealtime = document.getElementById("customDownPayment");
+if(customInputRealtime) {
+    customInputRealtime.addEventListener('blur', function() {
+        if (Number(this.value) < creditDownPayment) {
+            this.value = creditDownPayment;
+        }
+    });
+}
 
 const banks = ["BI", "Proamérica", "G&T", "BAM", "Bantrab", "Occidente", "Banrural", "Ficohsa", "Micoope", "Otros"];
 document.getElementById("bankGrid").innerHTML = banks.map(b => `<button class="bankBtn" data-bank="${b}">${b}</button>`).join("");
